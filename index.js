@@ -1,22 +1,46 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cookiesession = require('cookie-session');
-
-const authRouter = require('./routes/admin/auth');
-
-// const usersRepo = require('./repositories/users');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  cookiesession({
-    keys: ['hdhfg65ekqewl4c7']
-  })
-);
 
-app.use(authRouter);
+app.get('/', (req, res) => {
+  res.send(`
+    <div>
+      <form method="POST">
+        <input name="email" style='display: block' placeholder="email" />        
+        <input name="password" style='display: block' placeholder="password" />        
+        <input name="passwordConfirmation" style='display: block' placeholder="password confirmation" />
+        <button>Sign Up</button>        
+      </form>
+    </div>
+  `);
+});
 
-app.listen(3000, () => {
-  console.log(`Listening`);
+// const bodyParser = (req, res, next) => {
+//   if (req.method === 'POST') {
+//     req.on('data', data => {
+//       const parsed = data.toString('utf8').split('&');
+//       const formData = {};
+//       for (let pair of parsed) {
+//         const [key, value] = pair.split('=');
+//         formData[key] = value;
+//       }
+//       req.body = formData;
+//       next();
+//     });
+//   } else {
+//     next();
+//   }
+// };
+
+app.post('/', (req, res) => {
+  console.log(req.body);
+  res.send('Account Created');
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Listening on PORT:${PORT}`);
 });
