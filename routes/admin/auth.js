@@ -2,7 +2,8 @@
 //
 //
 const express = require('express');
-const { check, validationResult } = require('express-validator');
+
+const { handleErrors } = require('./middlewares');
 
 const usersRepo = require('../../repositories/users');
 const signUpTemplate = require('../../views/admin/auth/signup');
@@ -11,7 +12,7 @@ const signInTemplate = require('../../views/admin/auth/signin');
 const {
   requireEmail,
   requirePassword,
-  requirePasswordConfirmation,
+  // requirePasswordConfirmation,
   requireEmailExists,
   requireValidPasswordForUser
 } = require('./validators');
@@ -28,16 +29,11 @@ router.post(
   [
     requireEmail,
     requirePassword,
-    requirePasswordConfirmation
+    // requirePasswordConfirmation
   ],
+  handleErrors(signUpTemplate),
   async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.send(signUpTemplate({ req, errors }));
-    }
-
-    const { email, password, passwordConfirmation } = req.body;
+    const { email, password } = req.body;
     const user = await usersRepo.create({ email, password });
 
     req.session.userId = user.id;
@@ -61,12 +57,8 @@ router.post(
     requireEmailExists,
     requireValidPasswordForUser
   ],
+  handleErrors(signInTemplate),
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.send(signInTemplate({ errors }));
-    }
-
     const { email } = req.body;
     const user = await usersRepo.getOneBy({ email });
 
