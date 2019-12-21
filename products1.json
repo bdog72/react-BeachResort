@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Bozo",
+    "price": 10,
+    "image": "",
+    "id": "0"
+  },
+  {
+    "title": "Bozo1",
+    "price": 20,
+    "image": "",
+    "id": "1"
+  },
+  {
+    "title": "Bozo2",
+    "price": 30,
+    "image": "",
+    "id": "2"
+  },
+  {
+    "title": "Bozo3",
+    "price": 40,
+    "image": "",
+    "id": "3"
+  }
+]
